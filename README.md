@@ -15,7 +15,7 @@
     <img src="https://github.com/kimdoanh89/ecom/workflows/Test/badge.svg" alt="Test">
 </a>
 <a href="https://codecov.io/gh/kimdoanh89/ecom" target="_blank">
-    <img src="https://codecov.io/gh/kimdoanh89/ecom/branch/master/graph/badge.svg?token=I05R6KB0ZV" alt="Coverage">
+    <img src="https://codecov.io/gh/kimdoanh89/ecom/branch/master/graph/badge.svg?token=6zMv26KSD5" alt="Coverage">
 </a>
 </p>
 
@@ -44,7 +44,7 @@ ALTER USER doanhluong WITH PASSWORD 'doanhluong123';
 ```bash
 sudo apt-get install libpq-dev python3-dev build-essential
 poetry add SQLAlchemy psycopg2 alembic "passlib[argon2]" email-validator
-poetry add mypy flake8 black isort "coverage[toml]" pytest --dev
+poetry add mypy flake8 black isort "coverage[toml]" pytest-cov pytest --dev
 ```
 <a name="migration"></a>
 ## Migration
