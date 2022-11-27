@@ -43,7 +43,7 @@ ALTER USER doanhluong WITH PASSWORD 'doanhluong123';
 - Install SQLAlchemy
 ```bash
 sudo apt-get install libpq-dev python3-dev build-essential
-poetry add SQLAlchemy psycopg2 alembic "passlib[argon2]" email-validator
+poetry add SQLAlchemy psycopg2 alembic "passlib[argon2]" email-validator python-multipart "python-jose[cryptography]"
 poetry add mypy flake8 black isort "coverage[toml]" pytest-cov pytest --dev
 ```
 <a name="migration"></a>
