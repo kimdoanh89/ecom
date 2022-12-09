@@ -5,7 +5,7 @@ from ecom.auth.jwt import create_access_token
 from conf_test_db import app
 
 
-@pytest.mark.asyncio
+@pytest.mark.anyio
 async def test_all_users():
     async with AsyncClient(app=app, base_url="http://test") as ac:
         user_access_token = create_access_token({"sub": "john@gmail.com"})
