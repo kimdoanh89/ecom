@@ -16,6 +16,25 @@ on:
 jobs:
   test:
     runs-on: ubuntu-20.04
+    services:
+      # Label used to access the service container
+      postgres:
+        # Docker Hub image
+        image: postgres
+        # Provide the password for postgres
+        env:
+          POSTGRES_USER: doanhluong
+          POSTGRES_PASSWORD: doanhluong123
+          POSTGRES_DB: ecom_test
+        # Set health checks to wait until postgres has started
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          # Maps tcp port 5432 on service container to the host
+          - 5432:5432
     strategy:
       matrix:
         python-version: ["3.9", "3.10", "3.11"]
@@ -55,17 +74,6 @@ jobs:
         run: python -m poetry install
       - name: Lint
         run: python -m poetry run bash scripts/lint.sh
-      - run: mkdir coverage
-      - name: Test
-        run: python -m poetry run bash scripts/test.sh
-        env:
-          COVERAGE_FILE: coverage/.coverage.${{ runner.os }}-py${{ matrix.python-version }}
-          CONTEXT: ${{ runner.os }}-py${{ matrix.python-version }}
-      - name: Store coverage files
-        uses: actions/upload-artifact@v3
-        with:
-          name: coverage
-          path: coverage
       - name: Test with pytest
         run: |
           # python3 -m pytest -s --durations=0 . # https://stackoverflow.com/a/55095253
@@ -81,32 +89,3 @@ jobs:
           name: codecov-umbrella
           path_to_write_report: ./coverage/codecov_report.txt
           verbose: true
-  coverage-combine:
-    needs: [test]
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v3
-
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.8'
-
-      - name: Get coverage files
-        uses: actions/download-artifact@v3
-        with:
-          name: coverage
-          path: coverage
-
-      - run: pip install coverage[toml]
-
-      - run: ls -la coverage
-      - run: coverage combine coverage
-      - run: coverage report
-      - run: coverage html --show-contexts --title "Coverage for ${{ github.sha }}"
-
-      - name: Store coverage HTML
-        uses: actions/upload-artifact@v3
-        with:
-          name: coverage-html
-          path: htmlcov
