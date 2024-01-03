@@ -60,12 +60,12 @@ jobs:
       - name: Install Poetry
         uses: snok/install-poetry@v1
       - name: Configure poetry
-        run: python -m poetry config virtualenvs.create false
+        run: poetry config virtualenvs.create false
       - name: Install Dependencies
         if: steps.cache.outputs.cache-hit != 'true'
-        run: python -m poetry install
+        run: poetry install
       - name: Lint
-        run: python -m poetry run bash scripts/lint.sh
+        run: poetry run bash scripts/lint.sh
       - name: Test with pytest
         run: |
           # python3 -m pytest -s --durations=0 . # https://stackoverflow.com/a/55095253
